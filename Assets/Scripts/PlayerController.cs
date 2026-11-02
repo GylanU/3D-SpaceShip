@@ -114,7 +114,7 @@ public class PlayerController : MonoBehaviour
                 break;
 
             case LANE.MIDDLE:
-                direction = 0.3f - m_rigidbody.position.x;
+                direction = 0.0f - m_rigidbody.position.x;
                 break;
 
             case LANE.RIGHT:
@@ -126,6 +126,14 @@ public class PlayerController : MonoBehaviour
         pos.x = direction / 8.0f;
         transform.position += pos;
 
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Obstacle"))
+        {
+            Destroy(gameObject);
+        }
     }
 }
 
