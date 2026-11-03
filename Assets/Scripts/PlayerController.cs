@@ -1,6 +1,11 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 using UnityEngine.UIElements;
+using System.Collections;
+
+using static System.Net.Mime.MediaTypeNames;
+
 public class PlayerController : MonoBehaviour
 {
     //---------PRIVATE COMPONENTS------
@@ -9,7 +14,14 @@ public class PlayerController : MonoBehaviour
     //--------PUBLIC COMPONENTS----------
     public float p_jumpHeight = 3.0f;
 
-    //----------input system---------------
+    //----------UI----------
+    public UnityEngine.UI.Text p_coinCounterText;
+    public UnityEngine.UI.Text p_scoreCounterText;
+
+    private uint m_scoreCounter = 0;
+    private uint m_coinCounter = 0;
+
+    //-----input system-----
     public InputActionReference p_moveLeft;
     public InputActionReference p_moveRight;
     public InputActionReference p_jump;
@@ -84,8 +96,20 @@ public class PlayerController : MonoBehaviour
             Debug.Log((int)m_lane );
 
         m_moveLane = 0;
+
+
+
+        //----------update UI-------------
+        updateUI();
     }
 
+    //------------UPDATE USER INTERFACE------------
+
+    void updateUI()
+    {
+        p_coinCounterText.text = m_coinCounter.ToString();
+        p_scoreCounterText.text = m_scoreCounter.ToString();
+    }
 
     //----------------UPDATE PHYSICS-----------------
     private float prevY = 0;
@@ -128,16 +152,20 @@ public class PlayerController : MonoBehaviour
 
     }
 
+
+
+
+    //---------------COLLISION RESPONSES--------------------
+
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Obstacle"))
         {
+            //play death animation
+            //-TO DO
+
+            //destory object after a few second
             Destroy(gameObject);
         }
     }
 }
-
-
-
-//---------------COLLISION RESPONSES--------------------
-
