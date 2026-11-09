@@ -48,8 +48,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ObstacleMoving
   speed: 20
   direction: {x: 0, y: 0, z: -1}
-  obstacle: {fileID: 0}
-  obstacle2: {fileID: 0}
+  obstacle: {fileID: 1398106887616722020}
+  obstacle2: {fileID: 97814869834467891, guid: 10411ae4323ba5f48a92035edd37f02a, type: 3}
+  obstacle3: {fileID: 2202024290922979611, guid: 179b565cb9d59474fa1f9cd31993d111, type: 3}
+  obstacle4: {fileID: 3949782967602065640, guid: c887c8400c0defc4395aef855c542a97, type: 3}
+  obstacle5: {fileID: 2202024290922979611, guid: 179b565cb9d59474fa1f9cd31993d111, type: 3}
 --- !u!1001 &5338753742265783756
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -72,7 +75,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6214731535402682290, guid: a59999dba2d0ce44d87035089a4233a8, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -7.0542297
+      value: -7
       objectReference: {fileID: 0}
     - target: {fileID: 6214731535402682290, guid: a59999dba2d0ce44d87035089a4233a8, type: 3}
       propertyPath: m_LocalRotation.w
@@ -134,7 +137,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6214731535402682290, guid: a59999dba2d0ce44d87035089a4233a8, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -6.9933014
+      value: -7
       objectReference: {fileID: 0}
     - target: {fileID: 6214731535402682290, guid: a59999dba2d0ce44d87035089a4233a8, type: 3}
       propertyPath: m_LocalRotation.w

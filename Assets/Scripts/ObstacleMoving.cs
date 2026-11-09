@@ -5,12 +5,15 @@ public class ObstacleMoving : MonoBehaviour
 {
     public float speed = 1.0f;
     public Vector3 direction = new Vector3(0, 0, -1);
+
     //potential next objexts
     public GameObject obstacle;
     public GameObject obstacle2;
-    
+    public GameObject obstacle3;
+    public GameObject obstacle4;
+    public GameObject obstacle5;
+
     private Vector3 startPos;
-    private int randomLane;
     private bool SpawnFlag = false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -20,8 +23,8 @@ public class ObstacleMoving : MonoBehaviour
 
         direction = direction.normalized;
         
-            startPos.x = 0.0f;
-            transform.position = startPos;
+        startPos.x = 0.0f;
+        transform.position = startPos;
        
     }
 
@@ -32,23 +35,40 @@ public class ObstacleMoving : MonoBehaviour
         transform.position += direction * step;
         if (!SpawnFlag)
         {
-            if (transform.position.z <= 60)
+            if (transform.position.z <= 55)
             {
-                int randomObstacle = Random.Range(0, 2);
+                //spawn random new obstacle from selection
+                //very basic wave function collapse
+
+                int randomObstacle = Random.Range(0, 5);
+
                 if (randomObstacle == 0)
                 {
-                    Instantiate(obstacle, new Vector3(0, 0, 80), Quaternion.identity);
+                    Instantiate(obstacle, startPos, Quaternion.identity);
+                }
+                else if (randomObstacle == 1)
+                {
+                    Instantiate(obstacle2, startPos, Quaternion.identity);
+                }
+                else if (randomObstacle == 2)
+                {
+                    Instantiate(obstacle3, startPos, Quaternion.identity);
+                }
+                else if (randomObstacle == 3)
+                {
+                    Instantiate(obstacle4, startPos, Quaternion.identity);
                 }
                 else
                 {
-                    Instantiate(obstacle2, new Vector3(0, 0, 80), Quaternion.identity);
+                    Instantiate(obstacle5, startPos, Quaternion.identity);
                 }
-                
+
                 SpawnFlag = true;
             }
         }
         
-        if (transform.position.z <= -20)
+        
+        if (transform.position.z <= -10)
         {
             Destroy(gameObject);
            
