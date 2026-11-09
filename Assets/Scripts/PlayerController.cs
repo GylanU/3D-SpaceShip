@@ -137,7 +137,7 @@ public class PlayerController : MonoBehaviour
                 break;
 
             case LANE.MIDDLE:
-                direction = 0.0f - m_rigidbody.position.x;
+                direction = 2.50f - m_rigidbody.position.x;
                 break;
 
             case LANE.RIGHT:

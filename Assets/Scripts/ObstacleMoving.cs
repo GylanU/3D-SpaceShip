@@ -5,31 +5,24 @@ public class ObstacleMoving : MonoBehaviour
 {
     public float speed = 1.0f;
     public Vector3 direction = new Vector3(0, 0, -1);
+    //potential next objexts
+    public GameObject obstacle;
+    public GameObject obstacle2;
+    
     private Vector3 startPos;
     private int randomLane;
-    
+    private bool SpawnFlag = false;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        startPos = transform.position;
+        startPos = new Vector3(0, 0, 80);
 
         direction = direction.normalized;
-        randomLane = Random.Range(1, 4);
-        if (randomLane == 1)
-        {
-            startPos.x = -10.0f;
-            transform.position = startPos;
-        }
-        else if (randomLane == 2)
-        {
+        
             startPos.x = 0.0f;
             transform.position = startPos;
-        }
-        else if (randomLane == 3)
-        {
-            startPos.x = 10.0f;
-            transform.position = startPos;
-        }
+       
     }
 
     // Update is called once per frame
@@ -37,24 +30,28 @@ public class ObstacleMoving : MonoBehaviour
     {
         float step = speed * Time.deltaTime;
         transform.position += direction * step;
-        if (transform.position.z <= -10)
+        if (!SpawnFlag)
         {
-            randomLane = Random.Range(1, 4);
-            if (randomLane == 1)
+            if (transform.position.z <= 60)
             {
-                startPos.x = -10.0f;
-                transform.position = startPos + direction * step;
+                int randomObstacle = Random.Range(0, 2);
+                if (randomObstacle == 0)
+                {
+                    Instantiate(obstacle, new Vector3(0, 0, 80), Quaternion.identity);
+                }
+                else
+                {
+                    Instantiate(obstacle2, new Vector3(0, 0, 80), Quaternion.identity);
+                }
+                
+                SpawnFlag = true;
             }
-            else if (randomLane == 2)
-            {
-                startPos.x = 1.0f;
-                transform.position = startPos + direction * step;
-            }
-            else if (randomLane == 3)
-            {
-                startPos.x = 10.0f;
-                transform.position = startPos + direction * step;
-            }
+        }
+        
+        if (transform.position.z <= -20)
+        {
+            Destroy(gameObject);
+           
         }
 
 
