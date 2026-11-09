@@ -1,10 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.UI;
-using UnityEngine.UIElements;
-using System.Collections;
-
-using static System.Net.Mime.MediaTypeNames;
+using TMPro;
 
 public class PlayerController : MonoBehaviour
 {
@@ -15,11 +11,11 @@ public class PlayerController : MonoBehaviour
     public float p_jumpHeight = 3.0f;
 
     //----------UI----------
-    public UnityEngine.UI.Text p_coinCounterText;
-    public UnityEngine.UI.Text p_scoreCounterText;
+    public TMP_Text p_coinCounterText;
+    public TMP_Text p_scoreCounterText;
 
-    private uint m_scoreCounter = 0;
-    private uint m_coinCounter = 0;
+    public uint m_scoreCounter = 0;
+    public uint m_coinCounter = 0;
 
     //-----input system-----
     public InputActionReference p_moveLeft;
@@ -100,6 +96,9 @@ public class PlayerController : MonoBehaviour
 
 
         //----------update UI-------------
+        //update score
+        m_scoreCounter += 1;
+
         updateUI();
     }
 
@@ -168,4 +167,5 @@ public class PlayerController : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
 }
