@@ -7,13 +7,16 @@ public class Collectable : MonoBehaviour
 
     public bool m_isDestroyed = false;
     public float m_rotationSpeed = 1.0f;
+    public AudioClip clip;
 
     float m_initVerticlePos = 0.0f;
+    
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         m_initVerticlePos = transform.position.y;
+
     }
 
     // Update is called once per frame
@@ -27,11 +30,12 @@ public class Collectable : MonoBehaviour
         if(m_isDestroyed)
         {
             transform.position = transform.position += new Vector3(0.0f, 2.0f * Time.deltaTime, 0.0f);
-            m_rotationSpeed += 0.4f;
+            m_rotationSpeed += 1f;
 
         }
-        if(m_isDestroyed && transform.position.y > m_initVerticlePos + 1.2)
+        if(m_isDestroyed && transform.position.y > m_initVerticlePos + 0.1)
         {
+            AudioSource.PlayClipAtPoint(clip, transform.position);
             Destroy(this.gameObject);
         }
     }

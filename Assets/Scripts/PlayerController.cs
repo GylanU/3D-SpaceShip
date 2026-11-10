@@ -13,7 +13,7 @@ public class PlayerController : MonoBehaviour
 
 
     //--------PUBLIC COMPONENTS----------
-    public float p_jumpHeight = 3.0f;
+    public float p_jumpHeight = 10.0f;
 
     //----------UI----------
     public TMP_Text p_coinCounterText;
@@ -158,7 +158,7 @@ void Start()
                 break;
 
             case LANE.MIDDLE:
-                direction = 0.0f - m_rigidbody.position.x;
+                direction = 2.50f - m_rigidbody.position.x;
                 break;
 
             case LANE.RIGHT:
