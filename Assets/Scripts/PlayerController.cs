@@ -6,6 +6,11 @@ public class PlayerController : MonoBehaviour
 {
     //---------PRIVATE COMPONENTS------
     private Rigidbody m_rigidbody;
+    private bool m_isDead = false;
+    private bool m_isBeingChased = true;
+
+    public GameObject m_police;
+
 
     //--------PUBLIC COMPONENTS----------
     public float p_jumpHeight = 3.0f;
@@ -35,10 +40,12 @@ public class PlayerController : MonoBehaviour
     private LANE m_lane = LANE.MIDDLE;
     private LANE m_moveLane = 0;
 
+    private LANE m_previousPosition = LANE.MIDDLE;
 
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+
+// Start is called once before the first execution of Update after the MonoBehaviour is created
+void Start()
     {
         //m_input = GetComponent<InputActionReference>();
         m_rigidbody = GetComponent<Rigidbody>();
@@ -47,9 +54,9 @@ public class PlayerController : MonoBehaviour
     }
 
     // Update is called once per frame
-
     void Update()
     {
+        //--------------MOVEMENT-------------------
 
         //MOVE LEFT
         m_isLeft = p_moveLeft.action.ReadValue<float>();
@@ -100,6 +107,20 @@ public class PlayerController : MonoBehaviour
         m_scoreCounter += 1;
 
         updateUI();
+
+        //-------------UPDATE DEATH / BEING CHASED-----------------
+        Vector3 targetLocation = (transform.position + new Vector3(0, 3, -20));
+
+        if (m_isBeingChased)
+        {
+            //5 is speed
+            m_police.transform.position = Vector3.MoveTowards(m_police.transform.position, targetLocation, 10 * Time.deltaTime);
+        }
+        else
+        {
+            m_police.transform.position = Vector3.MoveTowards(m_police.transform.position, targetLocation - new Vector3(0, 0, -10), 10 * Time.deltaTime);
+
+        }
     }
 
     //------------UPDATE USER INTERFACE------------
@@ -160,11 +181,20 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Obstacle"))
         {
-            //play death animation
-            //-TO DO
 
-            //destory object after a few second
-            Destroy(gameObject);
+            if (m_isBeingChased)
+            {
+                m_isDead = false;
+                //isDead will execute some sort of death animation.
+
+
+
+                //temporary Destory function since we dont have 
+                Destroy(gameObject);
+
+            }
+               // m_isBeingChased = true;
+            
         }
     }
 
