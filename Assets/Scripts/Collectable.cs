@@ -27,10 +27,10 @@ public class Collectable : MonoBehaviour
         if(m_isDestroyed)
         {
             transform.position = transform.position += new Vector3(0.0f, 2.0f * Time.deltaTime, 0.0f);
-            m_rotationSpeed += 0.4f;
+            m_rotationSpeed += 1f;
 
         }
-        if(m_isDestroyed && transform.position.y > m_initVerticlePos + 1.2)
+        if(m_isDestroyed && transform.position.y > m_initVerticlePos + 0.1)
         {
             Destroy(this.gameObject);
         }

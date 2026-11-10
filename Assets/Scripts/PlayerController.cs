@@ -8,7 +8,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody m_rigidbody;
 
     //--------PUBLIC COMPONENTS----------
-    public float p_jumpHeight = 3.0f;
+    public float p_jumpHeight = 10.0f;
 
     //----------UI----------
     public TMP_Text p_coinCounterText;
