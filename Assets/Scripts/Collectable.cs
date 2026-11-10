@@ -7,13 +7,19 @@ public class Collectable : MonoBehaviour
 
     public bool m_isDestroyed = false;
     public float m_rotationSpeed = 1.0f;
+    public AudioClip coinsound;
 
     float m_initVerticlePos = 0.0f;
+    AudioSource source;
+    GameObject coin;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        coin = GameObject.Find("AudioObject");
+
         m_initVerticlePos = transform.position.y;
+
     }
 
     // Update is called once per frame
@@ -33,6 +39,8 @@ public class Collectable : MonoBehaviour
         if(m_isDestroyed && transform.position.y > m_initVerticlePos + 0.1)
         {
             Destroy(this.gameObject);
+            source.clip = coinsound;
+            source.Play();
         }
     }
 

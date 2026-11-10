@@ -127,3 +127,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8129ea6dcdccf9249b1c7fc5efe091f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Collectable
+  m_isDestroyed: 0
+  m_rotationSpeed: 1
+  coinsound: {fileID: 8300000, guid: e0585d0fd38662f4f92e3926bd273d43, type: 3}
