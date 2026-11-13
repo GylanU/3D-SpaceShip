@@ -7,10 +7,11 @@ public class PlayerController : MonoBehaviour
     //---------PRIVATE COMPONENTS------
     private Rigidbody m_rigidbody;
     private bool m_isDead = false;
-    private bool m_isBeingChased = true;
+    private bool m_isBeingChased = false;
 
+    //---------POLICE/BEING CHASED-------
     public GameObject m_police;
-
+    private float timer = 10.0f;
 
     //--------PUBLIC COMPONENTS----------
     public float p_jumpHeight = 10.0f;
@@ -63,6 +64,8 @@ void Start()
 
         if(m_isLeft == 1 && m_canMoveLeft && m_moveLane <= LANE.LEFT)
         {
+            m_previousPosition = m_lane;
+
             m_moveLane += 1;
             m_canMoveLeft = false;
             Debug.Log(m_moveLane.ToString());
@@ -80,6 +83,8 @@ void Start()
 
         if (m_isRight == 1 && m_canMoveRight && m_moveLane >= LANE.RIGHT)
         {
+            m_previousPosition = m_lane;
+
             m_moveLane -= 1;
             m_canMoveRight = false;
 
@@ -109,16 +114,28 @@ void Start()
         updateUI();
 
         //-------------UPDATE DEATH / BEING CHASED-----------------
-        Vector3 targetLocation = (transform.position + new Vector3(0, 3, -20));
+        Vector3 targetLocation = (transform.position + new Vector3(0, 3, -8));
 
         if (m_isBeingChased)
         {
-            //5 is speed
+            //move police towards desired intimidating location
             m_police.transform.position = Vector3.MoveTowards(m_police.transform.position, targetLocation, 10 * Time.deltaTime);
+            timer -= Time.deltaTime;
+            Debug.Log("TIMER going down" + timer);
+
+            //set timer and reset
+            if (timer <= 0.0f)
+            {
+                m_isBeingChased = false;
+                timer = 10.0f;
+                Debug.Log("TIMER RESET");
+            }
+        
+        
         }
         else
         {
-            m_police.transform.position = Vector3.MoveTowards(m_police.transform.position, targetLocation - new Vector3(0, 0, -10), 10 * Time.deltaTime);
+            m_police.transform.position = Vector3.MoveTowards(m_police.transform.position, targetLocation - new Vector3(0, 0, 10), 10 * Time.deltaTime);
 
         }
     }
@@ -149,7 +166,6 @@ void Start()
 
 
         //Move the rigidbody towards the direction
-
         float direction = 0;
         switch (m_lane)
         {
@@ -162,13 +178,13 @@ void Start()
                 break;
 
             case LANE.RIGHT:
-                direction = 10.0f - m_rigidbody.position.x;
+                direction = 11.0f - m_rigidbody.position.x;
                 break;
 
         }
         Vector3 pos = Vector3.zero;
-        pos.x = direction / 8.0f;
-        transform.position += pos;
+        pos.x = direction * 8.0f;
+        transform.position += pos * Time.deltaTime;
 
     }
 
@@ -184,7 +200,7 @@ void Start()
 
             if (m_isBeingChased)
             {
-                m_isDead = false;
+                m_isDead = true;
                 //isDead will execute some sort of death animation.
 
 
@@ -193,9 +209,49 @@ void Start()
                 Destroy(gameObject);
 
             }
-               // m_isBeingChased = true;
+            else
+            {
+                m_isBeingChased = true;
+                //previous position
+                m_lane = m_previousPosition;
+
+                switch(m_previousPosition)
+                {
+                   case LANE.LEFT: transform.position = new Vector3(-10, transform.position.y, transform.position.z);
+                        m_lane = LANE.LEFT;
+                        Debug.Log("IS BEING TELEPORTED PREOBABLY" + m_previousPosition);
+
+                        break;
+                   case LANE.MIDDLE: transform.position = new Vector3(0, transform.position.y, transform.position.z);
+                        m_lane = LANE.MIDDLE;
+                        Debug.Log("IS BEING TELEPORTED PREOBABLY" + m_previousPosition);
+
+                        break;
+                   case LANE.RIGHT: transform.position = new Vector3(11, transform.position.y, transform.position.z);
+                        m_lane = LANE.RIGHT;
+                        Debug.Log("IS BEING TELEPORTED PREOBABLY" + m_previousPosition);
+
+                        break;
+
+                }
+       
+                //Debug.Log("IS BEING TELEPORTED PREOBABLY" + m_previousPosition);
+                //transform.position = new Vector3(0, transform.position.y + 20, transform.position.z);
+
+            }
+                m_isBeingChased = true;
             
         }
+        if (collision.gameObject.CompareTag("FrontOfObstacle"))
+        {
+            m_isDead = true;
+            Debug.Log("INSTA KILLLL");
+            Debug.Log("INSTA KILLLL");
+            //call death function
+            Destroy(gameObject);
+        }
     }
+
+  
 
 }
