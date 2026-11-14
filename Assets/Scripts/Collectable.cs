@@ -27,13 +27,8 @@ public class Collectable : MonoBehaviour
 
     void FixedUpdate()
     {
-        if(m_isDestroyed)
-        {
-            transform.position = transform.position += new Vector3(0.0f, 2.0f * Time.deltaTime, 0.0f);
-            m_rotationSpeed += 1f;
 
-        }
-        if(m_isDestroyed && transform.position.y > m_initVerticlePos + 0.1)
+        if(m_isDestroyed)
         {
             AudioSource.PlayClipAtPoint(clip, transform.position);
             Destroy(this.gameObject);
@@ -43,8 +38,6 @@ public class Collectable : MonoBehaviour
 
     private void OnTriggerEnter(Collider collision)
     {
-        Debug.Log("PLAYER INTERSECTED EWITH COIN\n");
-
 
         if (collision.gameObject.CompareTag("Player") && !m_isDestroyed)
         {
