@@ -68,7 +68,7 @@ public class ObstacleMoving : MonoBehaviour
         }
         
         
-        if (transform.position.z <= -10)
+        if (transform.position.z <= -20)
         {
             Destroy(gameObject);
            
