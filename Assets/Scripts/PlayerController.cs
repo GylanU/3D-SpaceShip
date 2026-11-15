@@ -1,7 +1,8 @@
+using TMPro;
+using Unity.VectorGraphics;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using TMPro;
-
+using UnityEngine.SceneManagement;
 public class PlayerController : MonoBehaviour
 {
     //---------PRIVATE COMPONENTS------
@@ -204,7 +205,7 @@ void Start()
                 //isDead will execute some sort of death animation.
 
 
-
+                LoadEndScene(); // go to end scene
                 //temporary Destory function since we dont have 
                 Destroy(gameObject);
 
@@ -247,11 +248,16 @@ void Start()
             m_isDead = true;
             Debug.Log("INSTA KILLLL");
             Debug.Log("INSTA KILLLL");
-            //call death function
+            LoadEndScene(); // go to end scene
             Destroy(gameObject);
+        
         }
     }
 
-  
+  private void LoadEndScene()
+    {
+
+        SceneManager.LoadScene("end");
+    }
 
 }
