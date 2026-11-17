@@ -267,7 +267,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: fa0bd5deb54ec9840842a3b19695a322, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.226
+  m_Volume: 0.149
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -360,7 +360,7 @@ Transform:
   m_GameObject: {fileID: 278424173}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.8305, y: 0.89136, z: -76.79529}
+  m_LocalPosition: {x: 1.8305, y: 0.89136, z: -79.8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6270,6 +6270,10 @@ MonoBehaviour:
   p_moveLeft: {fileID: -3815312858136120461, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   p_moveRight: {fileID: -914867834113453305, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   p_jump: {fileID: 8325875050318084132, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  JeffryGrunt: {fileID: 8300000, guid: 8cd30466b407d0c478d9bf60a620267c, type: 3}
+  JeffryStop: {fileID: 8300000, guid: 3537249dacd9b6644ad9816452374520, type: 3}
+  repeatInterval: 20
+  volume: 0.5
 --- !u!114 &2075039740
 MonoBehaviour:
   m_ObjectHideFlags: 0

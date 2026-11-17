@@ -1,10 +1,14 @@
 using TMPro;
 using Unity.VectorGraphics;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using System.Collections;
+using Unity.Collections;
 public class PlayerController : MonoBehaviour
 {
+
     //---------PRIVATE COMPONENTS------
     private Rigidbody m_rigidbody;
     private bool m_isDead = false;
@@ -37,22 +41,29 @@ public class PlayerController : MonoBehaviour
     private float m_isRight = 0;
     private bool m_canMoveRight = true;
 
-    enum LANE { LEFT = 1, RIGHT = -1, MIDDLE = 0};
+    enum LANE { LEFT = 1, RIGHT = -1, MIDDLE = 0 };
 
     private LANE m_lane = LANE.MIDDLE;
     private LANE m_moveLane = 0;
 
     private LANE m_previousPosition = LANE.MIDDLE;
 
+    //-----------Audio------------
 
+    public AudioClip JeffryGrunt;
+    public AudioClip JeffryStop;
+    private Coroutine repeatGrunt;
+    public float repeatInterval;
+    public float volume;
+    private bool playStop = true;
 
-// Start is called once before the first execution of Update after the MonoBehaviour is created
-void Start()
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    void Start()
     {
         //m_input = GetComponent<InputActionReference>();
         m_rigidbody = GetComponent<Rigidbody>();
 
-
+        repeatGrunt = StartCoroutine(PlaySoundLoop(repeatInterval));
     }
 
     // Update is called once per frame
@@ -63,7 +74,7 @@ void Start()
         //MOVE LEFT
         m_isLeft = p_moveLeft.action.ReadValue<float>();
 
-        if(m_isLeft == 1 && m_canMoveLeft && m_moveLane <= LANE.LEFT)
+        if (m_isLeft == 1 && m_canMoveLeft && m_moveLane <= LANE.LEFT)
         {
             m_previousPosition = m_lane;
 
@@ -72,7 +83,7 @@ void Start()
             Debug.Log(m_moveLane.ToString());
 
         }
-        else if(m_isLeft == 0)
+        else if (m_isLeft == 0)
         {
             m_canMoveLeft = true;
         }
@@ -97,12 +108,12 @@ void Start()
 
 
 
-        if((int)m_lane + (int)m_moveLane <= 1 && (int)m_lane + (int)m_moveLane >= -1)
+        if ((int)m_lane + (int)m_moveLane <= 1 && (int)m_lane + (int)m_moveLane >= -1)
         {
             m_lane += (int)m_moveLane;
         }
         else
-            Debug.Log((int)m_lane );
+            Debug.Log((int)m_lane);
 
         m_moveLane = 0;
 
@@ -121,6 +132,12 @@ void Start()
         {
             //move police towards desired intimidating location
             m_police.transform.position = Vector3.MoveTowards(m_police.transform.position, targetLocation, 10 * Time.deltaTime);
+            if (playStop == true)
+            {
+                AudioSource.PlayClipAtPoint(JeffryStop, new Vector3(-1, 22.4F, -14.9F), volume);
+                playStop = false;
+            }
+
             timer -= Time.deltaTime;
             Debug.Log("TIMER going down" + timer);
 
@@ -130,13 +147,15 @@ void Start()
                 m_isBeingChased = false;
                 timer = 10.0f;
                 Debug.Log("TIMER RESET");
+                playStop = true;
             }
-        
-        
+
+
         }
         else
         {
             m_police.transform.position = Vector3.MoveTowards(m_police.transform.position, targetLocation - new Vector3(0, 0, 10), 10 * Time.deltaTime);
+
 
         }
     }
@@ -216,32 +235,32 @@ void Start()
                 //previous position
                 m_lane = m_previousPosition;
 
-                switch(m_previousPosition)
+                switch (m_previousPosition)
                 {
-                   case LANE.LEFT: transform.position = new Vector3(-10, transform.position.y, transform.position.z);
+                    case LANE.LEFT: transform.position = new Vector3(-10, transform.position.y, transform.position.z);
                         m_lane = LANE.LEFT;
                         Debug.Log("IS BEING TELEPORTED PREOBABLY" + m_previousPosition);
 
                         break;
-                   case LANE.MIDDLE: transform.position = new Vector3(0, transform.position.y, transform.position.z);
+                    case LANE.MIDDLE: transform.position = new Vector3(0, transform.position.y, transform.position.z);
                         m_lane = LANE.MIDDLE;
                         Debug.Log("IS BEING TELEPORTED PREOBABLY" + m_previousPosition);
 
                         break;
-                   case LANE.RIGHT: transform.position = new Vector3(11, transform.position.y, transform.position.z);
+                    case LANE.RIGHT: transform.position = new Vector3(11, transform.position.y, transform.position.z);
                         m_lane = LANE.RIGHT;
                         Debug.Log("IS BEING TELEPORTED PREOBABLY" + m_previousPosition);
 
                         break;
 
                 }
-       
+
                 //Debug.Log("IS BEING TELEPORTED PREOBABLY" + m_previousPosition);
                 //transform.position = new Vector3(0, transform.position.y + 20, transform.position.z);
 
             }
-                m_isBeingChased = true;
-            
+            m_isBeingChased = true;
+
         }
         if (collision.gameObject.CompareTag("FrontOfObstacle"))
         {
@@ -250,14 +269,26 @@ void Start()
             Debug.Log("INSTA KILLLL");
             LoadEndScene(); // go to end scene
             Destroy(gameObject);
-        
+
         }
     }
 
-  private void LoadEndScene()
+    private void LoadEndScene()
     {
 
         SceneManager.LoadScene("end");
     }
 
+
+    private IEnumerator PlaySoundLoop(float timing)
+    {
+        while (true)
+        {
+            AudioSource.PlayClipAtPoint(JeffryGrunt, new Vector3(-1, 22.4F, -14.9F), volume);
+            yield return new WaitForSeconds(timing);
+        }
+    }
+
+
 }
+
